@@ -77,6 +77,9 @@ public class ModuleIntegrationTest extends WrappingServerIntegrationTest {
             // verifying Vince
             List<Recommendation<Node>> recoForVince = recommendationEngine.recommend(getPersonByName("Vince"), new SimpleConfig(2));
             String expectedForVince = "Computed recommendations for Vince: (Adam {total:41.99417, ageDifference:-5.527864, friendsInCommon:{value:27.522034, {value:1.0, name:Jim}, {value:1.0, name:Michal}, {value:25.522034, ParetoTransformationOf:2.0}}, sameGender:10.0, sameLocation:{value:10.0, {value:10.0, location:London}}}), (Luanne {total:7.856705, ageDifference:-7.0093026, friendsInCommon:{value:14.866008, {value:13.866008, ParetoTransformationOf:1.0}, {value:1.0, name:Michal}}})";
+
+            System.out.println("recoForVince = " + recoForVince);
+
             assertEquals(expectedForVince, rememberingLogger.toString(getPersonByName("Vince"), recoForVince, null));
             assertEquals(expectedForVince, rememberingLogger.get(getPersonByName("Vince")));
         }
