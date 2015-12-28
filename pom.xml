@@ -13,7 +13,7 @@
         <spring-data-neo4j.version>3.3.2.RELEASE</spring-data-neo4j.version>
         <spring.version>4.0.7.RELEASE</spring.version>
         <slf4j.version>1.7.5</slf4j.version>
-        <neo4j.version>2.1.6</neo4j.version>
+        <neo4j.version>2.2.3</neo4j.version>
         <junit.version>4.11</junit.version>
     </properties>
 
