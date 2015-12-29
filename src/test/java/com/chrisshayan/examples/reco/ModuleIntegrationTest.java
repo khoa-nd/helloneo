@@ -20,6 +20,8 @@ import org.neo4j.graphdb.Transaction;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Created by chrisshayan on 12/24/15.
@@ -76,12 +78,36 @@ public class ModuleIntegrationTest extends WrappingServerIntegrationTest {
 
             // verifying Vince
             List<Recommendation<Node>> recoForVince = recommendationEngine.recommend(getPersonByName("Vince"), new SimpleConfig(2));
-            String expectedForVince = "Computed recommendations for Vince: (Adam {total:41.99417, ageDifference:-5.527864, friendsInCommon:{value:27.522034, {value:1.0, name:Jim}, {value:1.0, name:Michal}, {value:25.522034, ParetoTransformationOf:2.0}}, sameGender:10.0, sameLocation:{value:10.0, {value:10.0, location:London}}}), (Luanne {total:7.856705, ageDifference:-7.0093026, friendsInCommon:{value:14.866008, {value:13.866008, ParetoTransformationOf:1.0}, {value:1.0, name:Michal}}})";
+            assertNotNull(recoForVince);
+            assertTrue(recoForVince.size() == 2);
+            assertEquals("Adam", recoForVince.get(0).getItem().getProperty("name"));
+            assertEquals("Luanne", recoForVince.get(1).getItem().getProperty("name"));
 
-            System.out.println("recoForVince = " + recoForVince);
+            // verifying Adam
+            List<Recommendation<Node>> adamRecoList = recommendationEngine.recommend(getPersonByName("Adam"), new SimpleConfig(2));
+            assertNotNull(adamRecoList);
+            assertTrue(adamRecoList.size() == 2);
+            assertEquals("Vince", adamRecoList.get(0).getItem().getProperty("name"));
+            assertEquals("Daniela", adamRecoList.get(1).getItem().getProperty("name"));
 
-            assertEquals(expectedForVince, rememberingLogger.toString(getPersonByName("Vince"), recoForVince, null));
-            assertEquals(expectedForVince, rememberingLogger.get(getPersonByName("Vince")));
+            // verifying Luanne
+            List<Recommendation<Node>> luanneRecoList = recommendationEngine.recommend(getPersonByName("Luanne"), new SimpleConfig(4));
+            assertNotNull(luanneRecoList);
+            assertTrue(luanneRecoList.size() == 4);
+            assertEquals("Daniela", luanneRecoList.get(0).getItem().getProperty("name"));
+            assertEquals(14, luanneRecoList.get(0).getScore().getTotalScore(), 0.5);
+
+            assertEquals("Vince", luanneRecoList.get(1).getItem().getProperty("name"));
+            assertEquals(8, luanneRecoList.get(1).getScore().getTotalScore(), 0.5);
+
+            assertEquals("Jim", luanneRecoList.get(2).getItem().getProperty("name"));
+            assertEquals(7, luanneRecoList.get(2).getScore().getTotalScore(), 0.5);
+
+            assertEquals("Adam", luanneRecoList.get(3).getItem().getProperty("name"));
+            assertEquals(4, luanneRecoList.get(3).getScore().getTotalScore(), 0.5);
+
+
+            tx.success();
         }
     }
 
