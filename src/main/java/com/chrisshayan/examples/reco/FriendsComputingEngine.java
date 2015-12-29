@@ -5,6 +5,8 @@ import com.graphaware.reco.generic.context.Context;
 import com.graphaware.reco.generic.engine.RecommendationEngine;
 import com.graphaware.reco.generic.filter.BlacklistBuilder;
 import com.graphaware.reco.generic.filter.Filter;
+import com.graphaware.reco.generic.log.Logger;
+import com.graphaware.reco.generic.log.Slf4jRecommendationLogger;
 import com.graphaware.reco.generic.policy.ParticipationPolicy;
 import com.graphaware.reco.generic.post.PostProcessor;
 import com.graphaware.reco.generic.result.Recommendation;
@@ -56,5 +58,12 @@ public class FriendsComputingEngine extends Neo4jTopLevelDelegatingRecommendatio
     @Override
     public ParticipationPolicy<Node, Node> participationPolicy(Context<Node, Node> context) {
         return ParticipationPolicy.IF_MORE_RESULTS_NEEDED;
+    }
+
+    @Override
+    protected List<Logger<Node, Node>> loggers() {
+        return Arrays.<Logger<Node, Node>>asList(
+                new Slf4jRecommendationLogger<Node, Node>()
+        );
     }
 }
