@@ -36,7 +36,7 @@ public class GalaxyServiceTest {
     @Rollback(false)
     @BeforeTransaction
     public void cleanUpGraph() {
-        Neo4jHelper.cleanDb(neo4jTemplate);
+//        Neo4jHelper.cleanDb(neo4jTemplate);
     }
 
     @Test
