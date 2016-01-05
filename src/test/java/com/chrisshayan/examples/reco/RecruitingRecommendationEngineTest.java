@@ -66,7 +66,7 @@ public class RecruitingRecommendationEngineTest extends WrappingServerIntegratio
         return new GraphgenPopulator() {
             @Override
             protected String file() throws IOException {
-                return new ClassPathResource("demo-data.cyp").getFile().getAbsolutePath();
+                return new ClassPathResource("RecruitingGraphData.cyp").getFile().getAbsolutePath();
             }
         };
     }
